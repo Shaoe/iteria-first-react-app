@@ -1,23 +1,23 @@
 import React from 'react';
 import logo from './logo.svg';
 import { Box, Grommet } from "grommet";
+import { myTheme } from './theme';
+import { CustomerDetails } from './components/CustomerDetail';
+import { customer,customers, orders } from './data';
+import { CustomerList } from './components/CustomerList';
+import { OrderList } from './components/OrderList';
 
-const theme = {
-  name: "default",
-  rounding: 4,
-  spacing: 24,
-  global: {
-    font: {
-      family: "'Roboto'"
-    }
-  }
-};
+
 
 
 function App() {
   return (
-    <Grommet theme={theme}>
-      <Box pad="small">Grommet v2</Box>
+    <Grommet theme={myTheme}>
+      <Box flex={false} direction='row-responsive' wrap>
+          <CustomerDetails data={ customer }></CustomerDetails>
+      </Box>
+          <CustomerList data={ customers }></CustomerList>
+          <OrderList data={ orders }></OrderList>
     </Grommet>
   );
 }
