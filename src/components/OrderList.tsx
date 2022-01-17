@@ -14,7 +14,7 @@ interface OrderListProps {
         dateOfOrder: string,
         sum: number,
         numberOfProducts: number
-    }[]
+    }[] | undefined
 }
 
 

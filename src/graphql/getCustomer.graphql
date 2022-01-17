@@ -1,0 +1,8 @@
+query GetCustomer($id: Int!) {
+  customer_by_pk(id: $id) {
+    date_of_birth
+    id
+    name
+    vip_status
+  }
+}

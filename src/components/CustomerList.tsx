@@ -15,8 +15,8 @@ interface CustomerListProps {
         name: string,
         dateOfBrith: string,
         vipStatus: boolean,
-        totalSum: number
-    }[]
+        totalSum: any
+    }[] | undefined
 }
 
 export const CustomerList:  React.FC<CustomerListProps> = ({ data }) => (

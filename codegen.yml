@@ -1,0 +1,12 @@
+overwrite: true
+schema: 
+  - https://measured-mongrel-55.hasura.app/v1/graphql:
+      headers:
+        x-hasura-admin-secret: "bFLFCqAg7Y6FNM9JDJg814TUkvd1QnMAzokREYU6mDV8Ix8QwPt8eDnerUMX9pty"
+documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"

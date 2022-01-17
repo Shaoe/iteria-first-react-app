@@ -1,0 +1,9 @@
+query GetOrders($customerid: Int!) {
+  order(where: {customer_id: {_eq: $customerid}}) {
+    customer_id
+    date_of_order
+    id
+    number_of_products
+    sum
+  }
+}
