@@ -1,54 +1,46 @@
-import { Box, Grommet } from "grommet";
+import { Box, Grommet, TextInput } from "grommet";
 import { myTheme } from './theme';
 import { CustomerDetails } from './components/CustomerDetail';
 import { customer } from './data';
 import { CustomerList } from './components/CustomerList';
 import { OrderList } from './components/OrderList';
-import { useGetCustomerQuery, useGetCustomersQuery, useGetOrdersQuery } from './generated/graphql';
+import { GetOrdersQuery, Order, useGetCustomerQuery, useGetCustomersQuery, useGetOrdersQuery } from './generated/graphql';
+import { useEffect, useState } from "react";
+import { debug } from "console";
 
 
 
 
 function App() {
+  const [value, setValue] = useState('1');
 
-  const { data:customers_data  } = useGetCustomersQuery({
+  const { loading: ordersLoading,data: orders } = useGetOrdersQuery({
+    variables: {
+      customerid: +value
+    },
+  });
+
+  const { loading: customersLoading,data: customersData } = useGetCustomersQuery({
     variables: {
     },
   });
 
-  const customers = customers_data?.customer.map((customer) => {
-    return {
-      id: customer.id,
-      name: customer.name,
-      dateOfBrith: customer.date_of_birth,
-      vipStatus: customer.vip_status,
-      totalSum: customer.sum_of_orders
-    }
-  });
+  if (customersLoading || ordersLoading) return (<Box>'Loading...'</Box>);
 
-  const { data:order_data } = useGetOrdersQuery({
-      variables: {
-        customerid: 1
-      },
-    });
-
-    const orders = order_data?.order.map((order) => {
-      return {
-        id: order.id,
-        dateOfOrder: order.date_of_order,
-        sum: order.sum,
-        numberOfProducts: order.number_of_products
-      }
-    });
-
+  
 
   return (
     <Grommet theme={myTheme}>
+      <TextInput
+      placeholder="type here"
+      value={value}
+      onChange={event => setValue(event.target.value)}
+    />
       <Box flex={false} direction='row-responsive' wrap>
         <CustomerDetails data={customer}></CustomerDetails>
       </Box>
-      <CustomerList data={customers}></CustomerList>
-      <OrderList data={orders}></OrderList>
+      <CustomerList customer={customersData!.customer}></CustomerList>
+      <OrderList order={orders!.order}></OrderList>
     </Grommet>
   );
 }

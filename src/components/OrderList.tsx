@@ -1,28 +1,19 @@
 import { Box, Heading, DataTable } from "grommet";
+import { GetOrdersQuery, useGetOrdersQuery } from "../generated/graphql";
 
 const columnsDefault = [
     { property: 'id', header: 'ID' },
-    { property: 'dateOfOrder', header: 'Date of order' },
+    { property: 'date_of_order', header: 'Date of order' },
     { property: 'sum', header: 'Sum of order' },
-    { property: 'numberOfProducts', header: 'Number of products' },
+    { property: 'number_of_products', header: 'Number of products' },
   ];
   
 
-interface OrderListProps { 
-    data: {
-        id: number,
-        dateOfOrder: string,
-        sum: number,
-        numberOfProducts: number
-    }[] | undefined
-}
-
-
-export const OrderList:  React.FC<OrderListProps> = ({ data }) => (
+export const OrderList:  React.FC<GetOrdersQuery> = ({ order }) => (
     <Box fill="horizontal" pad="medium">
         <Heading level="3"> Orders </Heading>
         <DataTable columns={columnsDefault}
-            data={data}
+            data={order}
             primaryKey={false}
             border={{
                 color: 'border',
