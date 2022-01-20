@@ -18,19 +18,6 @@ export type Scalars = {
   numeric: any;
 };
 
-/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
-export type Boolean_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['Boolean']>;
-  _gt?: InputMaybe<Scalars['Boolean']>;
-  _gte?: InputMaybe<Scalars['Boolean']>;
-  _in?: InputMaybe<Array<Scalars['Boolean']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['Boolean']>;
-  _lte?: InputMaybe<Scalars['Boolean']>;
-  _neq?: InputMaybe<Scalars['Boolean']>;
-  _nin?: InputMaybe<Array<Scalars['Boolean']>>;
-};
-
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Int']>;
@@ -88,7 +75,7 @@ export type Customer = {
   /** An aggregate relationship */
   orders_aggregate: Order_Aggregate;
   sum_of_orders: Scalars['numeric'];
-  vip_status: Scalars['Boolean'];
+  vip_status: Scalars['String'];
 };
 
 
@@ -158,7 +145,7 @@ export type Customer_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   orders?: InputMaybe<Order_Bool_Exp>;
   sum_of_orders?: InputMaybe<Numeric_Comparison_Exp>;
-  vip_status?: InputMaybe<Boolean_Comparison_Exp>;
+  vip_status?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "customer" */
@@ -180,7 +167,7 @@ export type Customer_Insert_Input = {
   name?: InputMaybe<Scalars['String']>;
   orders?: InputMaybe<Order_Arr_Rel_Insert_Input>;
   sum_of_orders?: InputMaybe<Scalars['numeric']>;
-  vip_status?: InputMaybe<Scalars['Boolean']>;
+  vip_status?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -190,6 +177,7 @@ export type Customer_Max_Fields = {
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   sum_of_orders?: Maybe<Scalars['numeric']>;
+  vip_status?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -199,6 +187,7 @@ export type Customer_Min_Fields = {
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   sum_of_orders?: Maybe<Scalars['numeric']>;
+  vip_status?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "customer" */
@@ -259,7 +248,7 @@ export type Customer_Set_Input = {
   id?: InputMaybe<Scalars['Int']>;
   name?: InputMaybe<Scalars['String']>;
   sum_of_orders?: InputMaybe<Scalars['numeric']>;
-  vip_status?: InputMaybe<Scalars['Boolean']>;
+  vip_status?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
@@ -1756,14 +1745,14 @@ export type GetCustomerQueryVariables = Exact<{
 }>;
 
 
-export type GetCustomerQuery = { __typename?: 'query_root', customer_by_pk?: { __typename?: 'customer', id: number, name: string, date_of_birth: any, vip_status: boolean } | null | undefined };
+export type GetCustomerQuery = { __typename?: 'query_root', customer_by_pk?: { __typename?: 'customer', id: number, name: string, date_of_birth: any, vip_status: string } | null | undefined };
 
 export type GetCustomersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCustomersQuery = { __typename?: 'query_root', customer: Array<{ __typename: 'customer', id: number, name: string, date_of_birth: any, sum_of_orders: any, vip_status: boolean }> };
+export type GetCustomersQuery = { __typename?: 'query_root', customer: Array<{ __typename: 'customer', id: number, name: string, date_of_birth: any, sum_of_orders: any, vip_status: string }> };
 
-export type CustomerDetailsFragment = { __typename: 'customer', id: number, name: string, date_of_birth: any, sum_of_orders: any, vip_status: boolean };
+export type CustomerDetailsFragment = { __typename: 'customer', id: number, name: string, date_of_birth: any, sum_of_orders: any, vip_status: string };
 
 export type GetOrdersQueryVariables = Exact<{
   customerid: Scalars['Int'];
