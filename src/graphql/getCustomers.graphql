@@ -1,9 +1,13 @@
  query GetCustomers {
     customer {
+        ...CustomerDetails
+      }
+  }
+  fragment CustomerDetails on customer{
         id
         name
         date_of_birth
         sum_of_orders
         vip_status
-      }
+        __typename
   }

@@ -1756,12 +1756,14 @@ export type GetCustomerQueryVariables = Exact<{
 }>;
 
 
-export type GetCustomerQuery = { __typename?: 'query_root', customer_by_pk?: { __typename?: 'customer', date_of_birth: any, id: number, name: string, vip_status: boolean } | null | undefined };
+export type GetCustomerQuery = { __typename?: 'query_root', customer_by_pk?: { __typename?: 'customer', id: number, name: string, date_of_birth: any, vip_status: boolean } | null | undefined };
 
 export type GetCustomersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCustomersQuery = { __typename?: 'query_root', customer: Array<{ __typename?: 'customer', id: number, name: string, date_of_birth: any, sum_of_orders: any, vip_status: boolean }> };
+export type GetCustomersQuery = { __typename?: 'query_root', customer: Array<{ __typename: 'customer', id: number, name: string, date_of_birth: any, sum_of_orders: any, vip_status: boolean }> };
+
+export type CustomerDetailsFragment = { __typename: 'customer', id: number, name: string, date_of_birth: any, sum_of_orders: any, vip_status: boolean };
 
 export type GetOrdersQueryVariables = Exact<{
   customerid: Scalars['Int'];
@@ -1770,13 +1772,22 @@ export type GetOrdersQueryVariables = Exact<{
 
 export type GetOrdersQuery = { __typename?: 'query_root', order: Array<{ __typename?: 'order', customer_id: number, date_of_order: any, id: number, number_of_products: number, sum: any }> };
 
-
+export const CustomerDetailsFragmentDoc = gql`
+    fragment CustomerDetails on customer {
+  id
+  name
+  date_of_birth
+  sum_of_orders
+  vip_status
+  __typename
+}
+    `;
 export const GetCustomerDocument = gql`
     query GetCustomer($id: Int!) {
   customer_by_pk(id: $id) {
-    date_of_birth
     id
     name
+    date_of_birth
     vip_status
   }
 }
@@ -1812,14 +1823,10 @@ export type GetCustomerQueryResult = Apollo.QueryResult<GetCustomerQuery, GetCus
 export const GetCustomersDocument = gql`
     query GetCustomers {
   customer {
-    id
-    name
-    date_of_birth
-    sum_of_orders
-    vip_status
+    ...CustomerDetails
   }
 }
-    `;
+    ${CustomerDetailsFragmentDoc}`;
 
 /**
  * __useGetCustomersQuery__

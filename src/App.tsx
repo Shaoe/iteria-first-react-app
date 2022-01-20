@@ -1,10 +1,10 @@
-import { Box, Grommet, TextInput } from "grommet";
+import { Box, Grommet, KeyPress, MouseClick, TextInput } from "grommet";
 import { myTheme } from './theme';
 import { CustomerDetails } from './components/CustomerDetail';
 import { customer } from './data';
 import { CustomerList } from './components/CustomerList';
 import { OrderList } from './components/OrderList';
-import { GetOrdersQuery, Order, useGetCustomerQuery, useGetCustomersQuery, useGetOrdersQuery } from './generated/graphql';
+import { Customer, CustomerDetailsFragment, GetCustomersQuery, GetOrdersQuery, Order, useGetCustomerQuery, useGetCustomersQuery, useGetOrdersQuery } from './generated/graphql';
 import { useEffect, useState } from "react";
 import { debug } from "console";
 
@@ -12,34 +12,37 @@ import { debug } from "console";
 
 
 function App() {
-  const [value, setValue] = useState('1');
+  const [focusedCustomer, setFocusedCustomer] = useState(1);
 
-  const { loading: ordersLoading,data: orders } = useGetOrdersQuery({
+  const handleRowClick = (event: (MouseClick<CustomerDetailsFragment>)
+  | KeyPress<CustomerDetailsFragment>) => {
+    event.preventDefault();
+    setFocusedCustomer(event.datum.id);
+  };
+
+  const { loading: customersLoading, data: customersData } = useGetCustomersQuery({
     variables: {
-      customerid: +value
     },
   });
 
-  const { loading: customersLoading,data: customersData } = useGetCustomersQuery({
+  const { loading: ordersLoading, data: orders } = useGetOrdersQuery({
     variables: {
+      customerid: focusedCustomer
     },
   });
 
   if (customersLoading || ordersLoading) return (<Box>'Loading...'</Box>);
-
-  
-
+  debugger;
   return (
     <Grommet theme={myTheme}>
-      <TextInput
-      placeholder="type here"
-      value={value}
-      onChange={event => setValue(event.target.value)}
-    />
+
       <Box flex={false} direction='row-responsive' wrap>
         <CustomerDetails data={customer}></CustomerDetails>
       </Box>
-      <CustomerList customer={customersData!.customer}></CustomerList>
+      <CustomerList
+        customer={customersData!}
+        handleRowClick={handleRowClick}
+      ></CustomerList>
       <OrderList order={orders!.order}></OrderList>
     </Grommet>
   );
